@@ -1,3 +1,10 @@
+## Customization
+
+```
+./scripts/docker-build --image-name mjindal/terraform-resource:1.0.0 --terraform-url https://releases.hashicorp.com/terraform/0.14.7/terraform_0.14.7_linux_amd64.zip
+```
+
+
 ## Terraform Concourse Resource
 
 A [Concourse](http://concourse-ci.org/) resource that allows jobs to modify IaaS resources via [Terraform](https://www.terraform.io/).

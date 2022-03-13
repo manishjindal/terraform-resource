@@ -3,7 +3,7 @@ FROM alpine:latest
 ARG TARGETARCH
 
 RUN apk update && \
-    apk add ca-certificates git bash openssh-client curl
+    apk add ca-certificates git bash openssh-client curl aws-cli
 
 # this glibc compatibility module is needed for some downloaded binaries,
 # such as aws cli, to run in provisioners.
@@ -35,5 +35,10 @@ RUN mkdir -p /usr/local/share/terraform/plugins/github.com/ashald/stateful/1.2.0
     "https://github.com/ashald/terraform-provider-stateful/releases/download/v1.2.0/terraform-provider-stateful_v1.2.0-linux-${TARGETARCH}" && \
   chmod +x /usr/local/share/terraform/plugins/github.com/ashald/stateful/1.2.0/linux_${TARGETARCH}/terraform-provider-stateful_v1.2.0
 COPY $TARGETARCH/terraform/* /usr/local/bin/
+
+RUN wget -O /usr/local/bin/aws-iam-authenticator "https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator" && \
+  chmod +x /usr/local/bin/aws-iam-authenticator
+
 RUN terraform --version
+
 COPY $TARGETARCH/check $TARGETARCH/in $TARGETARCH/out /opt/resource/
